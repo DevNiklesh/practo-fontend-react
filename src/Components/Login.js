@@ -1,17 +1,25 @@
 import React, { Component } from 'react'
 import {Form,Button,Row,Col,Container,Image,Nav} from "react-bootstrap"
 import welcome from "../images/welcome.svg"
+import { Link } from "react-router-dom"
+import {connect} from "react-redux"
+import {loginUser} from "../Actions/UserLogin";
 
-
-export default class Login extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {login:true};
+        this.state = {login:true,
+                        userName : ""};
       }    
+    handleSubmit(){
+        
+        this.props.dispatch(loginUser(this.state))
+
+    }  
     render() {
         return (
            <Container fluid="md" >
-               <Nav variant="tabs" defaultActiveKey="/home" className="justify-content-md-center" style={{"margin-top":"10px"}}>
+               <Nav variant="tabs" defaultActiveKey="/home" className="justify-content-md-center" style={{"marginTop":"10px"}}>
                     <Nav.Item className={this.state.login? "active-tab":"" }>
                         <Nav.Link href="/login" onClick={()=>{this.setState({login:true})}}>Login</Nav.Link>
                     </Nav.Item>
@@ -19,16 +27,16 @@ export default class Login extends Component {
                         <Nav.Link eventKey="link-1" onClick={()=>{this.setState({login:false})}}>Signup</Nav.Link>
                     </Nav.Item>
                 </Nav>
-               <Row  className="justify-content-md-center" style={{"margin-top":"100px","padding":"20px","display":"flex"}}>
-                   <Col  xs={6} md={4} style={{"margin-top":"50px","margin-right":"40px"}}>
+               <Row  className="justify-content-md-center" style={{"marginTop":"100px","padding":"20px","display":"flex"}}>
+                   <Col  xs={6} md={4} style={{"marginTop":"50px","marginRight":"40px"}}>
                         <Image src={welcome} fluid/>
                    </Col>
                    <Col  xs={6} md={4} style={{"border":"0.1px solid #dde2de","padding":"15px"}}>
                     { this.state.login? (
-                    <Form>
+                    <Form >
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
+                            <Form.Label>Email / Username</Form.Label>
+                            <Form.Control type="email" placeholder="Enter email" onInput={(e)=>this.setState({...this.state,userName:e.target.value})} />
                             <Form.Text className="text-muted">
                             We'll never share your email with anyone else.
                             </Form.Text>
@@ -41,9 +49,12 @@ export default class Login extends Component {
                         <Form.Group className="mb-3" controlId="formBasicCheckbox">
                             <Form.Check type="checkbox" label="Check me out" />
                         </Form.Group>
-                        <Button variant="primary" type="submit">
-                            Login
-                        </Button>
+                        <Link to="/dashboard">
+                            <Button variant="primary" type="submit" onClick={() =>this.handleSubmit()}>
+                                 Login
+                            </Button>
+                        </Link>
+                        
                     </Form>
 
                     ): (
@@ -85,3 +96,18 @@ export default class Login extends Component {
         )
     }
 }
+// function mapDispatchToProps(dispatch) {
+//     return({
+//         sendTheAlert: () => {dispatch()}
+//     })
+// }
+
+function mapStateToProps(state) {
+    return({
+        user: state.user})
+}
+
+export default connect(
+    mapStateToProps)(
+    Login
+)
