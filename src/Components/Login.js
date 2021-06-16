@@ -9,12 +9,13 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {login:true,
-                        userName : ""};
+                        email : "",
+                        password:"",
+                        isDoctor:false};
       }    
     handleSubmit(){
-        
         this.props.dispatch(loginUser(this.state))
-
+        console.log(this.state)
     }  
     render() {
         return (
@@ -36,7 +37,7 @@ class Login extends Component {
                     <Form >
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Email / Username</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" onInput={(e)=>this.setState({...this.state,userName:e.target.value})} />
+                            <Form.Control type="email" placeholder="Enter email" onInput={(e)=>this.setState({...this.state,email:e.target.value})} />
                             <Form.Text className="text-muted">
                             We'll never share your email with anyone else.
                             </Form.Text>
@@ -44,10 +45,10 @@ class Login extends Component {
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
+                            <Form.Control type="password" placeholder="Password"  onInput={(e)=>this.setState({...this.state,password:e.target.value})}/>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                            <Form.Check type="checkbox" label="Check me out" />
+                            <Form.Check type="checkbox" label="Iam a Doctor" onClick={()=>this.setState({...this.state,isDoctor:true})}/>
                         </Form.Group>
                         <Link to="/dashboard">
                             <Button variant="primary" type="submit" onClick={() =>this.handleSubmit()}>

@@ -11,7 +11,11 @@ function App() {
     <Router>
           <NavBar/>
          <Switch>
-              <Route exact path='/' component={Home} />
+              <Route exact path='/' component={Home} render={props => (
+              localStorage.getItem('user')
+            ? <Dashboard />
+            : <Login />
+    )} />
               <Route path='/login' component={Login} />
               <Route path='/signup' component={Signup} />
               <Route path="/dashboard" component={Dashboard} />
