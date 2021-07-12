@@ -2,18 +2,19 @@ import React, { useEffect } from 'react'
 import { Row, Col, Container, Image, Tabs, Tab } from "react-bootstrap"
 import welcome from "../images/welcome.svg"
 import { useSelector } from "react-redux"
+import { useHistory } from 'react-router-dom';
 import LoginForm from '../Components/LoginForm'
 import SignupForm from '../Components/SignupForm'
 
-const Login = ({ location, history }) => {
+const Login = () => {
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
-    const redirect = location.search ? location.search.split("=")[1] : "/"
+    const history = useHistory()
     useEffect(() => {
         if (userInfo) {
-            history.pushState(redirect)
+            history.push('/')
         }
-    }, [history, userInfo, redirect])
+    }, [history, userInfo,])
 
     return (
 

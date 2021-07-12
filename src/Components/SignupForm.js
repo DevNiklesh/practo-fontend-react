@@ -1,60 +1,112 @@
-import React, { useState } from 'react'
-import { Form, Button } from "react-bootstrap"
-import { useDispatch } from "react-redux"
+import React, { useState } from "react";
+import * as yup from "yup";
+import { Formik } from "formik";
+import { Form, Button } from "react-bootstrap";
 import { signup } from "../Actions/UserLogin"
-import { useHistory } from 'react-router-dom';
+import { useDispatch } from "react-redux";
 
+
+
+const PASSWORD_PATTERN = /^(?=.*?[A-Za-z])(?=.*?[0-9]).{8,32}$/;
+const reqdFieldMsg = "This is a required field";
+const invalidPwdMsg =
+    "Password must contain atleast eight characters, at least one letter and one number.";
+const schema = yup.object({
+    isDoctor: yup.boolean(),
+    name: yup.string().required(reqdFieldMsg),
+    password: yup
+        .string()
+        .matches(PASSWORD_PATTERN, invalidPwdMsg)
+        .required(reqdFieldMsg),
+    email: yup.string().email("A valid email is required").required(reqdFieldMsg)
+});
 
 const SignupForm = () => {
-    const [state, setState] = useState({
-        name: "",
-        email: '',
-        password: "",
-        isDoctor: false
-    })
-
-    const history = useHistory()
     const dispatch = useDispatch()
-    const handleSubmit = () => {
-        dispatch(signup(state))
-        setState({ name: "", email: "", password: "" })
-        history.push("/login")
-    }
+    const onSubmit = (values) => {
+        dispatch(signup(values))
+
+    };
 
     return (
         <>
-            <div className="join-practa">
-                <h5>Join Practa  </h5>
-            </div>
-            <hr />
-            <Form  >
+            <Formik
+                validationSchema={schema}
+                onSubmit={onSubmit}
+                validateOnChange={false}
+                initialValues={{
+                    name: "",
+                    password: "",
+                    email: "",
+                    isDoctor: false
+                }}
+            >
+                {({ handleSubmit, handleChange, values, touched, errors }) => {
+                    return (
+                        <Form noValidate onSubmit={handleSubmit}>
+                            <Form.Group>
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control
 
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Group className="mb-3" controlId="formBasicText">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control type="text" placeholder="Name" onChange={(e) => setState({ ...state, name: e.target.value })} value={state.name} />
-                    </Form.Group>
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" onChange={(e) => setState({ ...state, email: e.target.value })} value={state.email} />
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
-                </Form.Group>
+                                    type="test"
+                                    name="name"
+                                    placeholder="Please enter name"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                    isInvalid={errors.name}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.name}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control
+                                    type="email"
+                                    name="email"
+                                    placeholder="Please enter your email address"
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    isInvalid={errors.email}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.email}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" onChange={(e) => setState({ ...state, password: e.target.value })} value={state.password} />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="I am a Doctor" onClick={(e) => setState({ ...state, isDoctor: !state.isDoctor })} />
-                </Form.Group>
-                <Button variant="primary" onClick={() => handleSubmit()}  >
-                    Signup
-                </Button>
-            </Form>
+                                    type="password"
+                                    name="password"
+                                    placeholder="Please enter a strong password"
+                                    value={values.password}
+                                    onChange={handleChange}
+                                    isInvalid={errors.password}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.password}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Check
+                                    type="checkbox"
+                                    name="isDoctor"
+                                    label="isDoctor"
+                                    value={values.isDoctor}
+                                    onChange={handleChange}
+
+                                />
+
+                            </Form.Group>
+                            <Button type="submit">Submit</Button>
+                        </Form>
+                    );
+                }}
+            </Formik>
 
         </>
-    )
-}
-export default SignupForm
+    );
+};
 
+export default SignupForm;

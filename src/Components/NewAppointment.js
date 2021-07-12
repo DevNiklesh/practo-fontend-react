@@ -14,11 +14,15 @@ const NewAppointment = (props) => {
   const [appDate, setAppDate] = useState(null)
   const [appTime, setAppTime] = useState(null)
   const { availableDoctors } = useSelector(state => state.availableDoctors)
-  const slots = availableDoctors ? availableDoctors.map((doc) => {
+  var data = ""
+  if (availableDoctors) {
+    data = availableDoctors.data
+  }
+  const slots = availableDoctors && data ? (data.map((doc) => {
     if (doc._id === curDoctor) {
       return (doc.avaliableSlots)
     } return null
-  }).flat() : null
+  }).flat()) : null
 
   const clickHandle = () => {
     setShow(true)
@@ -31,8 +35,7 @@ const NewAppointment = (props) => {
 
   }
   const { available_slots } = useSelector(state => state.available_slots)
-
-  const doctorsList = availableDoctors ? availableDoctors.map((d) => {
+  const doctorsList = availableDoctors && availableDoctors.data ? data.map((d) => {
     return (
       <Alert key={d._id} variant="success">
         <Alert.Heading>{d.name}
@@ -47,7 +50,7 @@ const NewAppointment = (props) => {
   }) : (<Alert variant="danger">
     All the doctors are busy with their appointment. Try again later ...
   </Alert>)
-  const profile = availableDoctors ? availableDoctors.map((d) => {
+  const profile = availableDoctors && availableDoctors.data ? data.map((d) => {
     if (d._id === curDoctor) {
       return (
         <>

@@ -7,7 +7,7 @@ import axios from "axios"
 export const signup = (values) => async (dispatch) => {
     try {
 
-        const { email, password, isDoctor, name } = values
+        const { email, name, isDoctor, password } = values
         console.log(email, password, isDoctor, name)
         dispatch({
             type: SIGNUP
@@ -30,6 +30,7 @@ export const loginUser = (values) => async (dispatch) => {
     try {
 
         const { email, password, isDoctor } = values
+        console.log(email, password, isDoctor)
         dispatch({
             type: LOGIN,
 
