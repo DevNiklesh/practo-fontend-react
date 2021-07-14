@@ -8,7 +8,7 @@ const createAppointments = (newAppdata) => async (dispatch) => {
         })
         var { token } = JSON.parse(localStorage.getItem('userInfo'))
 
-        const { data } = axios.post("/newapp",
+        const { data } = await axios.post("/newapp",
             {
                 ...newAppdata
             },
@@ -18,6 +18,7 @@ const createAppointments = (newAppdata) => async (dispatch) => {
                     "Authorization": `Bearer ${token}`,
                 },
             })
+        console.log(data)
         dispatch({
             type: CREATE_APPOINTMENTS_SUCCESS,
             payload: data

@@ -8,11 +8,10 @@ export const signup = (values) => async (dispatch) => {
     try {
 
         const { email, name, isDoctor, password } = values
-        console.log(email, password, isDoctor, name)
         dispatch({
             type: SIGNUP
         })
-        const { data } = axios.post("/signup", { email, password, isDoctor, name })
+        const { data } = await axios.post("/signup", { name, email, password, isDoctor })
         dispatch({
             type: SIGNUP_SUCCESS,
             payload: data
@@ -30,7 +29,7 @@ export const loginUser = (values) => async (dispatch) => {
     try {
 
         const { email, password, isDoctor } = values
-        console.log(email, password, isDoctor)
+
         dispatch({
             type: LOGIN,
 

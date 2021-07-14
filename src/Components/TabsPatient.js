@@ -4,9 +4,9 @@ import AcceptedRequest from "./AcceptedRequest"
 import RejectedRequest from "./RejectedRequest"
 import PendingRequest from "./PendingRequest"
 import { useSelector } from "react-redux"
-import UploadRecord from "./UploadRecord"
+//import UploadRecord from "./UploadRecord"
 import CompletedApp from "./CompletedApp"
-
+import UploadMedicalRecord from "./UploadMedicalRecord"
 
 const TabsPatient = (props) => {
     const { appointments } = useSelector(state => state.appointments)
@@ -56,7 +56,7 @@ const TabsPatient = (props) => {
                             {prescription}
                         </Tab.Pane>
                         <Tab.Pane eventKey="medical_records" key="third-content">
-                            <UploadRecord />
+                            <UploadMedicalRecord />
                         </Tab.Pane>
 
 

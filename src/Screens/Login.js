@@ -5,21 +5,39 @@ import { useSelector } from "react-redux"
 import { useHistory } from 'react-router-dom';
 import LoginForm from '../Components/LoginForm'
 import SignupForm from '../Components/SignupForm'
-
+import Alert from "../Components/Alerts"
+import LoadingSpinner from "../Components/LoadingSpinner"
 const Login = () => {
     const userLogin = useSelector(state => state.userLogin)
-    const { userInfo } = userLogin
+    const userSignup = useSelector(state => state.signupInfo)
+
+    var { loading, error, userInfo } = userLogin
+    console.log(error)
+    if (userSignup.signupInfo) {
+        loading = userSignup.loading
+        error = userSignup.error
+        const signupInfo = userSignup.signupInfo
+    }
     const history = useHistory()
     useEffect(() => {
-        if (userInfo) {
-            history.push('/')
+        if (userInfo && !error) {
+            history.push('/user/dashboard')
         }
-    }, [history, userInfo,])
+    }, [history, userInfo, error])
 
     return (
 
 
         <Container fluid="md" style={{ "marginTop": "25px" }}>
+            {
+                loading ? (<LoadingSpinner />) : null
+            }
+            {
+                userInfo ? (<Alert msg={"Login Successfull!!!"} />) : null
+            }
+            {
+                userSignup && userSignup.signupInfo ? (<Alert msg={"Signup Successfull!!!"} />) : null
+            }
             <Tabs defaultActiveKey="login" className="justify-content-md-center" id="uncontrolled-tab-example">
                 <Tab eventKey="login" title="Login" >
                     <Row className="justify-content-md-center" style={{ "marginTop": "50px", "padding": "20px", "display": "flex" }}>
@@ -43,7 +61,9 @@ const Login = () => {
                     </Row>
                 </Tab>
             </Tabs>
-
+            {
+                error ? (<Alert msg={error} />) : null
+            }
         </Container>
     )
 }
