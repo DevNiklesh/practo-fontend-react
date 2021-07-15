@@ -48,7 +48,7 @@ const DashBoard = () => {
     return (
 
         <div style={{ "backgroundColor": "#dde2de", "padding": "20px" }}>
-            <div style={{ "backgroundColor": "white", "margin": "10px", "borderBottom": "1px solid #dde2de", "padding": "10px" }}>
+            <div style={{ "backgroundColor": "white", "margin": "10px", "borderBottom": "1px solid #dde2de", "padding": "10px", "height": "500px" }}>
                 <Row>
                     <Col sm>
                         <h5>Your Drive</h5>

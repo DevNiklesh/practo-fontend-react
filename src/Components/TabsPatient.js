@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Nav, Tab } from 'react-bootstrap'
+import { Row, Col, Nav, Tab, Tabs } from 'react-bootstrap'
 import AcceptedRequest from "./AcceptedRequest"
 import RejectedRequest from "./RejectedRequest"
 import PendingRequest from "./PendingRequest"
@@ -32,38 +32,46 @@ const TabsPatient = (props) => {
     }) : null
 
     return (
-        <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-            <Row>
-                <Col sm={3} key="col-1">
-                    <Nav variant="tabs" className="flex-column">
-                        <Nav.Item key="first">
-                            <Nav.Link eventKey="appointment" >Appointments</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item key="second">
-                            <Nav.Link eventKey="prescription">Prescription</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item key="third">
-                            <Nav.Link eventKey="medical_records">Medical Records</Nav.Link>
-                        </Nav.Item>
-                    </Nav>
-                </Col>
-                <Col sm={9} key="col-2">
-                    <Tab.Content>
-                        <Tab.Pane eventKey="appointment" key="first-content">
-                            {app}
-                        </Tab.Pane>
-                        <Tab.Pane eventKey="prescription" key="second-content">
-                            {prescription}
-                        </Tab.Pane>
-                        <Tab.Pane eventKey="medical_records" key="third-content">
-                            <UploadMedicalRecord />
-                        </Tab.Pane>
+        <Tabs >
+            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                <Row>
+                    <Col sm={3} key="col-1">
+                        <Nav variant="tabs" className="flex-column">
+                            <Nav.Item key="first">
+                                <Nav.Link eventKey="appointment" >Appointments</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item key="second">
+                                <Nav.Link eventKey="prescription">Prescription</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item key="third">
+                                <Nav.Link eventKey="medical_records">Medical Records</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item key="fourth">
+                                <Nav.Link eventKey="past-app">Appointments History</Nav.Link>
+                            </Nav.Item>
+                        </Nav>
+                    </Col>
+                    <Col sm={9} key="col-2">
+                        <Tab.Content >
+                            <Tab.Pane eventKey="appointment" key="first-content" >
+                                {app}
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="prescription" key="second-content">
+                                {prescription}
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="medical_records" key="third-content">
+                                <UploadMedicalRecord />
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="past-app" key="fourth-content">
+                                past appointments
+                            </Tab.Pane>
 
 
-                    </Tab.Content>
-                </Col>
-            </Row>
-        </Tab.Container>
+                        </Tab.Content>
+                    </Col>
+                </Row>
+            </Tab.Container>
+        </Tabs>
 
     )
 }

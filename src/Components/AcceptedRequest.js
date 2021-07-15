@@ -3,6 +3,7 @@ import { Alert, Button, Modal, Form } from "react-bootstrap"
 import { setPrescription } from "../Actions/Prescriptions"
 import { useDispatch, useSelector } from "react-redux"
 import updateAppointment from "../Actions/UpdateStatus"
+import listAppointment from '../Actions/ListAppointments'
 import { showProfile } from "../Actions/ShowProfile"
 import getMedicaleRecords from "../Actions/GetMedicRecords"
 import { useHistory } from 'react-router-dom';
@@ -14,13 +15,7 @@ const AcceptedRequest = (props) => {
     const [presc, setPresc] = useState(null)
     const dispatch = useDispatch()
     const history = useHistory()
-    const handleSubmit = () => {
-        handleClose();
-        dispatch(setPrescription(
-            presc, props.patientId, props.doctorId, props.appId
-        ))
-        dispatch(updateAppointment("Completed", props.appId))
-    }
+
     const { userInfo } = useSelector(state => state.userLogin)
     var user = ""
     if (userInfo) {
@@ -30,6 +25,14 @@ const AcceptedRequest = (props) => {
         dispatch(showProfile(props.patientId))
         dispatch(getMedicaleRecords(props.patientId))
         history.push("/patientprofile")
+    }
+    const handleSubmit = () => {
+        handleClose();
+        dispatch(setPrescription(
+            presc, props.patientId, props.doctorId, props.appId
+        ))
+        dispatch(updateAppointment("Completed", props.appId))
+        dispatch(listAppointment(user._id, user.isDoctor))
     }
     return (
 

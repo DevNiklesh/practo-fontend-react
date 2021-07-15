@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import { logout } from "../Actions/UserLogin"
 import Alert from "../Components/Alerts"
 
+
 const NavBar = ({ location, history }) => {
     const [isLogout, setIsLogout] = useState(false)
     const { userInfo } = useSelector(state => state.userLogin)
@@ -50,6 +51,7 @@ const NavBar = ({ location, history }) => {
                             <NavDropdown.Item componentClass={Link} href="/user/profile" to="/user/profile" >
                                 My Profile
                             </NavDropdown.Item>
+
                         </NavDropdown>
                     ) : (
                         <Nav className="ml-auto" to="/login" style={{ "textDecoration": 'none' }}>

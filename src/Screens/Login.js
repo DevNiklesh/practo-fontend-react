@@ -12,12 +12,8 @@ const Login = () => {
     const userSignup = useSelector(state => state.signupInfo)
 
     var { loading, error, userInfo } = userLogin
-    console.log(error)
-    if (userSignup.signupInfo) {
-        loading = userSignup.loading
-        error = userSignup.error
-        const signupInfo = userSignup.signupInfo
-    }
+
+
     const history = useHistory()
     useEffect(() => {
         if (userInfo && !error) {

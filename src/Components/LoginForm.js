@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { Form, Button } from "react-bootstrap";
 import { loginUser } from "../Actions/UserLogin"
 import { useDispatch } from "react-redux";
-
-
+import LoadingSpinner from "./LoadingSpinner"
 
 const PASSWORD_PATTERN = /^(?=.*?[A-Za-z])(?=.*?[0-9]).{8,32}$/;
 const reqdFieldMsg = "This is a required field";
@@ -20,15 +19,23 @@ const schema = yup.object({
     email: yup.string().email("A valid email is required").required(reqdFieldMsg)
 });
 
+
+
+
 const LoginForm = () => {
+    const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
     const onSubmit = (values) => {
+        setLoading(true)
         dispatch(loginUser(values))
-
     };
 
     return (
         <>
+            {
+                loading ? (<LoadingSpinner />) : null
+            }
+
             <Formik
                 validationSchema={schema}
                 onSubmit={onSubmit}
@@ -82,12 +89,12 @@ const LoginForm = () => {
                                 />
 
                             </Form.Group>
-                            <Button type="submit">Submit</Button>
+                            <Button type="submit">Login</Button>
                         </Form>
                     );
                 }}
-            </Formik>
 
+            </Formik>
         </>
     );
 };
